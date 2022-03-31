@@ -2,6 +2,13 @@ import { Request, Response } from 'express'
 import { v4 as uuidV4 } from 'uuid'
 
 import Payment from '../schemas/Payment'
+import Event from '../schemas/Event'
+
+const operationConfirm = 'CONFIRM'
+const operationUndone = 'UNDONE'
+const operationCanceled = 'CANCELED'
+
+const operationStatusFail = 'FAIL'
 
 class PicPayController {
   public async token (req: Request, res: Response): Promise<Response> {
@@ -17,17 +24,29 @@ class PicPayController {
     const { transactionId } = req.params
 
     if (!transactionId) {
-      return res.send('transactionId deve ser informado!')
+      return res.status(400).send('transactionId deve ser informado!')
     }
 
     const payment = await Payment.findOne({ transactionId })
 
     if (!payment) {
-      return res.send('transactionId inválido!')
+      return res.status(406).send('transactionId inválido!')
+    }
+
+    const event = await Event.findOne({ chargeId: payment.charge.chargeId })
+
+    if (event) {
+      if (event.operation === operationUndone && event.operationStatus === operationStatusFail) {
+        event.status = 'EXECUTED'
+        event.dateExecuted = new Date()
+        await event.save()
+
+        return res.status(406).send(`Falha devido ao evento configurado previamento ${event._id}`)
+      }
     }
 
     if (payment.status !== 'PAID') {
-      return res.send('status do pagamento inválido!')
+      return res.status(406).send('status do pagamento inválido!')
     }
 
     payment.status = 'UNDONE'
@@ -40,17 +59,29 @@ class PicPayController {
     const { transactionId } = req.params
 
     if (!transactionId) {
-      return res.send('transactionId deve ser informado!')
+      return res.status(400).send('transactionId deve ser informado!')
     }
 
     const payment = await Payment.findOne({ transactionId })
 
     if (!payment) {
-      return res.send('transactionId inválido!')
+      return res.status(406).send('transactionId inválido!')
+    }
+
+    const event = await Event.findOne({ chargeId: payment.charge.chargeId })
+
+    if (event) {
+      if (event.operation === operationConfirm && event.operationStatus === operationStatusFail) {
+        event.status = 'EXECUTED'
+        event.dateExecuted = new Date()
+        await event.save()
+
+        return res.status(406).send(`Falha devido ao evento configurado previamento ${event._id}`)
+      }
     }
 
     if (payment.status !== 'PAID') {
-      return res.send('status do pagamento inválido!')
+      return res.status(406).send('status do pagamento inválido!')
     }
 
     payment.status = 'CAPTURED'
@@ -63,17 +94,29 @@ class PicPayController {
     const { transactionId } = req.params
 
     if (!transactionId) {
-      return res.send('transactionId deve ser informado!')
+      return res.status(400).send('transactionId deve ser informado!')
     }
 
     const payment = await Payment.findOne({ transactionId })
 
     if (!payment) {
-      return res.send('transactionId inválido!')
+      return res.status(406).send('transactionId inválido!')
+    }
+
+    const event = await Event.findOne({ chargeId: payment.charge.chargeId })
+
+    if (event) {
+      if (event.operation === operationCanceled && event.operationStatus === operationStatusFail) {
+        event.status = 'EXECUTED'
+        event.dateExecuted = new Date()
+        await event.save()
+
+        return res.status(406).send(`Falha devido ao evento configurado previamento ${event._id}`)
+      }
     }
 
     if (payment.status !== 'CAPTURED') {
-      return res.send('status do pagamento inválido!')
+      return res.status(406).send('status do pagamento inválido!')
     }
 
     payment.status = 'CANCELED'
