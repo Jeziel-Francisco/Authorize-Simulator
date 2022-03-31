@@ -26,7 +26,7 @@ class PaidController {
     const charge = await Charge.findOne({ chargeId })
 
     if (!status) {
-      return res.status(406).send('Status deve ser preenchido!')
+      return res.status(400).send('Status deve ser preenchido!')
     }
 
     if (status.toUpperCase() !== statusPaid && status.toUpperCase() !== statusUndone) {
