@@ -11,12 +11,7 @@ interface EventInterface extends Document {
 const EventSchema = new Schema({
   chargeId: String,
   operation: String,
-  operationStatus: String,
-  status: {
-    type: String,
-    default: 'PENDING'
-  },
-  dateExecuted: Date
+  operationStatus: String
 }, { timestamps: true })
 
 export default model<EventInterface>('Event', EventSchema)

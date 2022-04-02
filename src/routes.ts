@@ -13,6 +13,7 @@ routes.post('/default-wallet/undone/:transactionId', DefaultWalletController.und
 routes.post('/default-wallet/confirm/:transactionId', DefaultWalletController.confirm)
 routes.post('/default-wallet/cancel/:transactionId', DefaultWalletController.cancel)
 
+// EVENTS
 routes.post('/event', (EventController.create))
 /// Desfazimento
 /// Confirmação

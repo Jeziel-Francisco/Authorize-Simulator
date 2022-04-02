@@ -27,10 +27,6 @@ class DefaultWalletController {
 
     if (event) {
       if (event.operation === operationUndone && event.operationStatus === operationStatusFail) {
-        event.status = 'EXECUTED'
-        event.dateExecuted = new Date()
-        await event.save()
-
         return res.status(406).send(`Falha devido ao evento configurado previamento ${event._id}`)
       }
     }
@@ -62,10 +58,6 @@ class DefaultWalletController {
 
     if (event) {
       if (event.operation === operationConfirm && event.operationStatus === operationStatusFail) {
-        event.status = 'EXECUTED'
-        event.dateExecuted = new Date()
-        await event.save()
-
         return res.status(406).send(`Falha devido ao evento configurado previamento ${event._id}`)
       }
     }
@@ -97,10 +89,6 @@ class DefaultWalletController {
 
     if (event) {
       if (event.operation === operationCanceled && event.operationStatus === operationStatusFail) {
-        event.status = 'EXECUTED'
-        event.dateExecuted = new Date()
-        await event.save()
-
         return res.status(406).send(`Falha devido ao evento configurado previamento ${event._id}`)
       }
     }
