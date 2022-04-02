@@ -10,9 +10,9 @@ routes.get('/charge/:walletCnpj/:qrcode', ChargeController.getChargeByQrcode)
 
 routes.post('/paid/:chargeId/:status', PaidController.paidCharge)
 
-routes.post('/picpay/undone/:transactionId', DefaultWalletController.undone)
-routes.post('/picpay/confirm/:transactionId', DefaultWalletController.confirm)
-routes.post('/picpay/cancel/:transactionId', DefaultWalletController.cancel)
+routes.post('/default-wallet/undone/:transactionId', DefaultWalletController.undone)
+routes.post('/default-wallet/confirm/:transactionId', DefaultWalletController.confirm)
+routes.post('/default-wallet/cancel/:transactionId', DefaultWalletController.cancel)
 
 routes.post('/event', (EventController.create))
 /// Desfazimento
