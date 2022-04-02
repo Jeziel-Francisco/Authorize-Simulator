@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { v4 as uuidV4 } from 'uuid'
 
 import Payment from '../schemas/Payment'
 import Event from '../schemas/Event'
@@ -10,16 +9,7 @@ const operationCanceled = 'CANCELED'
 
 const operationStatusFail = 'FAIL'
 
-class PicPayController {
-  public async token (req: Request, res: Response): Promise<Response> {
-    return res.json({
-      access_token: uuidV4(),
-      client_id: 'linx-api',
-      expires: new Date().getTime() + 10000,
-      scope: null
-    })
-  }
-
+class DefaultWalletController {
   public async undone (req: Request, res: Response): Promise<Response> {
     const { transactionId } = req.params
 
@@ -126,4 +116,4 @@ class PicPayController {
   }
 }
 
-export default new PicPayController()
+export default new DefaultWalletController()
