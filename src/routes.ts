@@ -6,10 +6,9 @@ import DefaultWalletController from './controllers/DefaultWalletController'
 
 const routes = Router()
 
-routes.get('/charge/:walletCnpj/:qrcode', ChargeController.getChargeByQrcode)
-
-routes.post('/paid/:chargeId/:status', PaidController.paidCharge)
-
+// DEFAULT WALLETs
+routes.get('/default-wallet/charge/:walletCnpj/:qrcode', ChargeController.getChargeByQrcode)
+routes.post('/default-wallet/paid/:chargeId/:status', PaidController.paidCharge)
 routes.post('/default-wallet/undone/:transactionId', DefaultWalletController.undone)
 routes.post('/default-wallet/confirm/:transactionId', DefaultWalletController.confirm)
 routes.post('/default-wallet/cancel/:transactionId', DefaultWalletController.cancel)
