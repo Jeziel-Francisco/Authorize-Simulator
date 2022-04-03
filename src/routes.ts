@@ -15,6 +15,7 @@ routes.post('/default-wallet/cancel/:transactionId', DefaultWalletController.can
 
 // EVENTS
 routes.post('/event', (EventController.create))
+routes.delete('/event/:eventId', (EventController.delete))
 /// Desfazimento
 /// Confirmação
 /// Cancelamento

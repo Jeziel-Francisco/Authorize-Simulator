@@ -43,6 +43,24 @@ class EventController {
 
     return res.json(eventResult)
   }
+
+  public async delete (req: Request, res: Response): Promise<Response> {
+    const eventId = req.params.eventId
+
+    if (!eventId) {
+      return res.status(400).send('eventId deve ser informado!')
+    }
+
+    const event = await Event.findById(eventId)
+
+    if (!event) {
+      return res.status(406).send('Evento não encontrado!')
+    }
+
+    await event.remove()
+
+    return res.send('Evento removido com sucesso!')
+  }
 }
 
 export default new EventController()
