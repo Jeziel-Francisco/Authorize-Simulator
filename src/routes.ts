@@ -26,12 +26,12 @@ routes.post('/event', (EventController.create))
 /// Remover eventos que manipulam repostas nos endpoints de desfazimento, confirmação e cancelamento
 routes.delete('/event/:eventId', (EventController.delete))
 
-// MERCADO PAGO WALLET
+/// ________________________________ MERCADO PAGO WALLET ________________________________
 // Autorizar/Negar pagamento de cobrança, em caso de autorização é possivel definir o envio do callback para o parceiro
 routes.post('/mercadopago-wallet/paid', PaidController.paidChargeMercadoPagoWallet)
-
 /// Consulta pagamento pelo transacionId
-routes.get('/mercadopago-wallet/paid/:transacionId', PaidController.getPaidChargeMercadoPagoWallet)
+routes.get('/mercadopago-wallet/paid', PaidController.getPaidChargeMercadoPagoWallet)
+
 routes.post('/mercadopago-wallet/undone/:transactionId', MercadoPagoWalletController.undone)
 routes.post('/mercadopago-wallet/confirm/:transactionId', MercadoPagoWalletController.confirm)
 routes.post('/mercadopago-wallet/cancel/:transactionId', MercadoPagoWalletController.cancel)

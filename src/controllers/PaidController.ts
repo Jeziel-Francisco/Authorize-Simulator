@@ -159,25 +159,37 @@ class PaidController {
   }
 
   public async getPaidChargeMercadoPagoWallet (req: Request, res: Response): Promise<Response> {
-    const { chargeId } = req.params
-
-    if (!chargeId) {
-      return res.status(400).send('ChargeId deve ser preenchido!')
+    const { transactionId, chargeId } = req.query
+    const result = {
+      charge: {},
+      payment: {}
+    }
+    const responseBody = {
     }
 
-    const charge = await Charge.findOne({ chargeId })
-
-    if (!charge) {
-      return res.status(406).send('Cobrança não encontrada!')
+    if (!chargeId && !transactionId) {
+      return res.status(400).send('ChargeId ou transactionId deve ser preenchido!')
     }
 
-    const payment = await Payment.findOne({ charge })
+    if (chargeId) {
+      result.charge = await Charge.findOne({ chargeId })
 
-    if (!payment) {
-      return res.status(406).send('Pagamento não encontrado!')
+      if (!result.charge) {
+        return res.status(406).send('Cobrança não encontrada!')
+      }
+
+      result.payment = await Payment.findOne({ charge: result.charge })
     }
 
-    return res.json(payment)
+    if (transactionId) {
+      result.payment = await Payment.findOne({ transactionId: transactionId })
+    }
+
+    if (result.payment) {
+      /// TODO: Montar resposta da request
+    }
+
+    return res.json(responseBody)
   }
 }
 
