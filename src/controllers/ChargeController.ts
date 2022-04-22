@@ -3,15 +3,9 @@ import axios from 'axios'
 
 import Charge from '../schemas/Charge'
 
-const CNPJ_MERCADO_PAGO = '10573521000191'
-
 class ChargeController {
   public async getChargeByQrcode (req: Request, res: Response): Promise<Response> {
     const { walletCnpj, qrcode } = req.params
-
-    if (CNPJ_MERCADO_PAGO === walletCnpj) {
-      return res.status(406).send('Não apto a ler com a carteira mercado pago, por gentileza utilizar o endpoint /charge/mercadopago')
-    }
 
     const { data } = await axios.get(`${process.env.URL_BASE_QRLINX}/wallet-hub-linx-payment/v2/payment/data/${walletCnpj}/${qrcode}`, {
       headers: {
